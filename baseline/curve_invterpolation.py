@@ -10,7 +10,7 @@ script_directory = os.path.dirname(os.path.abspath(__file__))
 def log_distance_path_loss(d, RSSI0, n, d0):
     return RSSI0 - 10 * n * np.log10(d / d0)
 
-ground_truth_data = os.path.join(script_directory, 'groundtruth.csv')
+ground_truth_data = os.path.join(script_directory, 'groundtruth2.csv')
 x_data = []
 y_data = []
 
