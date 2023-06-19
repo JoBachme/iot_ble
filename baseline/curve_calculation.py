@@ -6,9 +6,9 @@ import numpy as np
 import pandas as pd
 
 THIS_FILE = Path(__file__).parent.resolve()
-DIR_TRAINING = THIS_FILE / "Messungen/1Messung_Training"
-DIR_TEST = THIS_FILE / "Messungen/1Messung_Test"
-DIR_2TRAINING = THIS_FILE / "Messungen/2Messung_Training"
+DIR_TRAINING = THIS_FILE / "../Messungen/1Messung_Training"
+DIR_TEST = THIS_FILE / "../Messungen/1Messung_Test"
+DIR_2TRAINING = THIS_FILE / "../Messungen/2Messung_Training"
 mess_abstaende = [0, 5, 10, 12.5, 15, 17.5, 20, 22, 24, 26, 27]
 
 def messung(filename):
