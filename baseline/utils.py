@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from scipy.optimize import minimize
+from beacon_utils.beacon_enum import Beacon
 
 """ calculate the distance from a given rssi value based on the groundtruth data and curve fit """
 # RSSI0 value is -24.35
@@ -48,6 +49,20 @@ def data_extraction(filename):
     print()
 
     return data_array
+
+def data_extraction_2d(filename):
+    data_dict = {"0_0": [], "0_100": [], "100_100": [], "100_0": []}
+
+    with open(filename, "r", encoding="UTF-8") as file:
+        json_file = file.readlines()
+
+    for v in json_file:
+        if Beacon.A.value in v: data_dict["100_100"].append(int(v.split("rssi=")[1].split(",")[0]))
+        if Beacon.B.value in v: data_dict["100_0"].append(int(v.split("rssi=")[1].split(",")[0]))
+        if Beacon.C.value in v: data_dict["0_0"].append(int(v.split("rssi=")[1].split(",")[0]))
+        if Beacon.D.value in v: data_dict["0_100"].append(int(v.split("rssi=")[1].split(",")[0]))
+
+    return data_dict
 
 def trilateration(ref_points, distances):
     num_points = len(ref_points)
