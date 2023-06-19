@@ -1,9 +1,12 @@
 from matplotlib import pyplot as plt
 from pathlib import Path
+from utils import data_extraction
 import json
 import os
 import numpy as np
 import pandas as pd
+
+
 
 THIS_FILE = Path(__file__).parent.resolve()
 DIR_TRAINING = THIS_FILE / "../Messungen/1Messung_Training"
@@ -11,37 +14,14 @@ DIR_TEST = THIS_FILE / "../Messungen/1Messung_Test"
 DIR_2TRAINING = THIS_FILE / "../Messungen/2Messung_Training"
 mess_abstaende = [0, 5, 10, 12.5, 15, 17.5, 20, 22, 24, 26, 27]
 
-def messung(filename):
-    data_array = []
-    count = 0
 
-    with open(filename, "r", encoding="UTF-8") as file:
-        json_file = file.readlines()
-    
-    for i, v in enumerate(json_file):
-        data_array.append(int(v.split("rssi=")[1].split(",")[0]))
-        count = i
-
-    length = int(len(data_array)/2)
-    data_array = data_array[length-50:length+50]
-    data_array.sort()
-    data_array = np.array(data_array)
-    
-    print("Anzahl Werte: ", count)
-    print("Durchschnitt: ", round(np.mean(data_array), 2))
-    print("Median: ", np.median(data_array))
-    print("Std: ", round(np.std(data_array),2))
-    print(f"Untere Grenze: {data_array[0]}, Obere Grenze: {data_array[-1]}")
-    print()
-
-    return data_array
 
 def create_messung_dict(DIRECTORY):
     data = dict()
     for filename in os.listdir(DIRECTORY):
         f = os.path.join(DIRECTORY, filename)
         print(f)
-        arr = messung(f)
+        arr = data_extraction(f)
         f = int(f.split("_")[-2][:-2])
         data[f] = arr
     return data
