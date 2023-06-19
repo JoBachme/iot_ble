@@ -28,9 +28,9 @@ def messung(filename):
     data_array = np.array(data_array)
     
     print("Anzahl Werte: ", count)
-    print("Durchschnitt: ", np.mean(data_array))
+    print("Durchschnitt: ", round(np.mean(data_array), 2))
     print("Median: ", np.median(data_array))
-    print("Std: ", np.std(data_array))
+    print("Std: ", round(np.std(data_array),2))
     print(f"Untere Grenze: {data_array[0]}, Obere Grenze: {data_array[-1]}")
     print()
 
@@ -46,26 +46,30 @@ def create_messung_dict(DIRECTORY):
         data[f] = arr
     return data
 
-plt.rcParams["figure.figsize"] = [10, 3.50]
-plt.rcParams["figure.autolayout"] = True
+def main():
+    plt.rcParams["figure.figsize"] = [10, 3.50]
+    plt.rcParams["figure.autolayout"] = True
 
-data = create_messung_dict(DIR_TRAINING)
-test = create_messung_dict(DIR_TEST)
-fig, ax = plt.subplots()
+    data = create_messung_dict(DIR_TRAINING)
+    test = create_messung_dict(DIR_TEST)
+    fig, ax = plt.subplots()
 
-data = dict(sorted(data.items()))
-test = dict(sorted(test.items()))
-ax.boxplot(data.values())
-ax.set_xticklabels(data.keys())
+    data = dict(sorted(data.items()))
+    test = dict(sorted(test.items()))
+    ax.boxplot(data.values())
+    ax.set_xticklabels(data.keys())
 
-plt.plot(5, -40, marker="o", markersize=5, markeredgecolor="red")
+    plt.plot(5, -40, marker="o", markersize=5, markeredgecolor="red")
 
-for arr in list(zip(list(test.values()), mess_abstaende)):
-    y = np.median(arr[0])
-    x = arr[1]+1
-    plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
+    for arr in list(zip(list(test.values()), mess_abstaende)):
+        y = np.median(arr[0])
+        x = arr[1]+1
+        plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
 
-plt.show()
+    plt.show()
+
+if __name__ == "__main__":
+    main()
 
 # Nur ein Protokoll auswählen aus den ganzen Paketen
 # https://stackoverflow.com/questions/32735016/how-to-identify-a-eddystone-via-scanrecord/66703766#66703766
