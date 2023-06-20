@@ -29,7 +29,24 @@ with open(ground_truth_data, 'r') as file:
 x_data = np.array(x_data) # first parameter cannot be 0
 y_data = np.array(y_data)
 
-initial_guess = [ -30, 2.46, 0.05]  # Initial parameter guesses [RSSI0, n, d0]
+# average y values --------------------
+averaged_values = {}
+for x, y in zip(x_data, y_data):
+    if x in averaged_values:
+        averaged_values[x].append(y)  # Add the y-value to the existing list for that x-value
+    else:
+        averaged_values[x] = [y]  # Create a new list for that x-value
+
+x_data = []
+y_data = []
+# Calculate the average of y-values for each x-value
+for x, y_list in averaged_values.items():
+    average_y = np.median(y_list)#sum(y_list) / len(y_list)
+    x_data.append(x)
+    y_data.append(average_y)
+# end average --------------------------------
+
+initial_guess = [ -30, 2, 0.05]  # Initial parameter guesses [RSSI0, n, d0]
 
 params, _ = curve_fit(
     log_distance_path_loss,
@@ -41,12 +58,13 @@ params, _ = curve_fit(
 # Extract the estimated parameters
 RSSI0_est, n_est, d0_est = params
 
+x_data_lin = np.linspace(0.01, 1, num=100)
 # Generate predicted RSSI values using the estimated parameters
-predicted_RSSI_values = log_distance_path_loss(x_data, RSSI0_est, n_est, d0_est)
+predicted_RSSI_values = log_distance_path_loss(x_data_lin, RSSI0_est, n_est, d0_est)
 
 # Plot the original data and the fitted curve
 plt.scatter(x_data, y_data, label='Measured RSSI')
-plt.plot(x_data, predicted_RSSI_values, 'r-', label='Fitted Curve')
+plt.plot(x_data_lin, predicted_RSSI_values, 'r-', label='Fitted Curve')
 plt.xlabel('Distance')
 plt.ylabel('RSSI')
 plt.legend()

@@ -5,7 +5,7 @@ import numpy as np
 
 
 # Test: Distance from RSSI value and RSSI value from distance
-rssi = -67
+rssi = -79
 distance = 2
 t_distance = calculate_distance_from_rssi(rssi)
 t_rssi = calculate_rssi_value_from_distance(distance)

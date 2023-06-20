@@ -11,8 +11,14 @@ import math
 # n = 1.959
 # d0 = 0.0296
 
+# For addopted measurement with median rssi values:
+# RSSSIO = -37.9
+# n = 1.89
+# d0 = 0.05
+
+
 def calculate_rssi_value_from_distance(distance):
-    return -33.3 - 10 * 1.959 * np.log10(distance / 0.0296)
+    return -37.9 - 10 * 1.89 * np.log10(distance / 0.05)
 
 def calculate_distance_from_rssi(rssi):
-  return 0.0296 * math.pow(10, ((-33.3 - rssi) / (10 * 1.959)))
+  return 0.05 * math.pow(10, ((-37.9 - rssi) / (10 * 1.89)))
