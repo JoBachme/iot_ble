@@ -1,16 +1,20 @@
 import numpy as np
 import os
 from scipy.optimize import curve_fit
+from curve_calculation import create_messung_dict
 import matplotlib.pyplot as plt
 import csv
+from pathlib import Path
 
 script_directory = os.path.dirname(os.path.abspath(__file__))
+THIS_FILE = Path(__file__).parent.resolve()
+DIR_TEST = THIS_FILE / "../Messungen/1Messung_Test"
 
 
 def log_distance_path_loss(d, RSSI0, n, d0):
     return RSSI0 - 10 * n * np.log10(d / d0)
 
-ground_truth_data = os.path.join(script_directory, 'groundtruth2.csv')
+ground_truth_data = os.path.join(script_directory, 'groundtruth.csv')
 x_data = []
 y_data = []
 
@@ -58,13 +62,25 @@ params, _ = curve_fit(
 # Extract the estimated parameters
 RSSI0_est, n_est, d0_est = params
 
-x_data_lin = np.linspace(0.01, 1, num=100)
+x_data_lin = np.linspace(0.01, 8, num=800)
 # Generate predicted RSSI values using the estimated parameters
 predicted_RSSI_values = log_distance_path_loss(x_data_lin, RSSI0_est, n_est, d0_est)
 
+plt.rcParams["figure.figsize"] = [10, 3.50]
+plt.rcParams["figure.autolayout"] = True
+
+test = create_messung_dict(DIR_TEST)
+test = dict(sorted(test.items()))
+
+for arr in list(zip(list(test.values()), list(test.keys()))):
+    y = np.median(arr[0])
+    x = arr[1] / 100
+    plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
+
 # Plot the original data and the fitted curve
-plt.scatter(x_data, y_data, label='Measured RSSI')
+# plt.scatter(x_data, y_data, label='Measured RSSI')
 plt.plot(x_data_lin, predicted_RSSI_values, 'r-', label='Fitted Curve')
+
 plt.xlabel('Distance')
 plt.ylabel('RSSI')
 plt.legend()

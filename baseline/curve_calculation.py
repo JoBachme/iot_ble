@@ -5,6 +5,7 @@ import json
 import os
 import numpy as np
 import pandas as pd
+import matplotlib
 
 
 
@@ -33,19 +34,19 @@ def main():
     data = create_messung_dict(DIR_TRAINING)
     test = create_messung_dict(DIR_TEST)
     fig, ax = plt.subplots()
+    box_widths = [x for x in range(1, len(list(data.keys()))+1)]
 
     data = dict(sorted(data.items()))
     test = dict(sorted(test.items()))
-    ax.boxplot(data.values())
-    ax.set_xticklabels(data.keys())
 
-    plt.plot(5, -40, marker="o", markersize=5, markeredgecolor="red")
+    ax.boxplot(data.values(), positions=list(data.keys()), widths=box_widths)
 
-    for arr in list(zip(list(test.values()), mess_abstaende)):
-        y = np.median(arr[0])
-        x = arr[1]+1
-        plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
+    # for arr in list(zip(list(test.values()), mess_abstaende)):
+    #     y = np.median(arr[0])
+    #     x = arr[1]+1
+    #     plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
 
+    plt.xscale('log', base=100)
     plt.show()
 
 if __name__ == "__main__":

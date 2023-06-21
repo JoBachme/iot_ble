@@ -8,7 +8,7 @@ from filter_beacon_name import filter_beacon_name
 from beacon_enum import Beacon
 script_directory = os.path.dirname(os.path.abspath(__file__))
 
-GROUND_TRUTH_FOLDER = "../Messungen/Messung_Korrektur2"
+GROUND_TRUTH_FOLDER = "../Messungen/1Messung_Training"
 ground_truth_path = os.path.join(script_directory, GROUND_TRUTH_FOLDER)
 def get_data(filename):
     data_array = []
@@ -39,7 +39,7 @@ sorted_lists = sorted(zipped_lists)
 distances, rssi_values = zip(*sorted_lists)
 
 data = list(zip(distances, rssi_values))
-filename = os.path.join(script_directory, 'groundtruth2.csv')
+filename = os.path.join(script_directory, 'groundtruth.csv')
 with open(filename, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Distances', 'RSSI'])
