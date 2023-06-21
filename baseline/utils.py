@@ -1,7 +1,11 @@
 import numpy as np
 import math
 from scipy.optimize import minimize
-from beacon_utils.beacon_enum import Beacon
+import os
+import sys
+module_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'beacon_utils'))
+sys.path.append(module_dir)
+from beacon_enum import Beacon
 
 """ calculate the distance from a given rssi value based on the groundtruth data and curve fit """
 # RSSI0 value is -24.35
