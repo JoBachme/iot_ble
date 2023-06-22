@@ -75,7 +75,7 @@ test = dict(sorted(test.items()))
 for arr in list(zip(list(test.values()), list(test.keys()))):
     y = np.median(arr[0])
     x = arr[1] / 100
-    plt.plot(x, y, marker="o", markersize=5, markeredgecolor="red")
+    plt.plot(x, y, marker="o", markersize=5, color="red")
 
 # Plot the original data and the fitted curve
 # plt.scatter(x_data, y_data, label='Measured RSSI')

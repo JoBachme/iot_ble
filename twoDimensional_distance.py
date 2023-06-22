@@ -5,7 +5,7 @@ from enum import Enum
 
 from baseline.calculate_distance import calculate_distance_from_rssi, calculate_rssi_value_from_distance
 from baseline.utils import data_extraction_2d, calculate_distance_twoPoints, trilateration
-
+from plot_2d import plot2D
 
 THIS_FILE = Path(__file__).parent.resolve()
 DIR_TRAINING = THIS_FILE / "Messungen/2DMessung_Training"
@@ -13,7 +13,7 @@ DIR_TRAINING = THIS_FILE / "Messungen/2DMessung_Training"
 CUT_OFF_DISTANCE = 200
 
 def main():
-    filename = DIR_TRAINING / "1Messung_100_100.txt"
+    filename = DIR_TRAINING / "1Messung_50_0.txt"
     data_dict = data_extraction_2d(filename)
 
     # Define the known reference points and distances
@@ -41,6 +41,8 @@ def main():
     
     # calculate the mean point over all points
     possible_points = np.array(possible_points)
+
+    plot2D(possible_points, [50, 0])
 
     mean_point = np.mean(possible_points, axis=0)
     mean_point = [np.round(x, 3) for x in mean_point]
